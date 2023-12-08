@@ -1,6 +1,9 @@
-function add(n1, n2) {
-    return n2 + n1
+const person:{
+    name: string;
+    age: number
+} = {
+    name: 'punit',
+    age:40
 }
 
-const result = add(5, '2.2')
-console.log(result)
+console.log(person.name)

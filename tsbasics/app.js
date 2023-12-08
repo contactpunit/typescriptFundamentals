@@ -1,5 +1,5 @@
-function add(n1, n2) {
-    return n2 + n1;
-}
-var result = add(5, '2.2');
-console.log(result);
+var person = {
+    name: 'punit',
+    age: 40
+};
+console.log(person.name);
