@@ -1,8 +1,11 @@
-function addAndPrint(n1: number, n2: number, cb: (result: number) => void) {  // void means we will ignore any return value
-    const result = n1 + n2
-    cb(result)
+function throwError(message: string, code: number): never {
+    throw {message, errorCode: code }
 }
 
-addAndPrint(10, 20, (result) => {
-    console.log(result)
-})
+function divideNums(a, b) {
+    const result = a / b
+    if(Number.isNaN(result)) throwError('divide by zero error thrown', 500)
+}
+
+divideNums(6, 3)
+divideNums(0, 0)

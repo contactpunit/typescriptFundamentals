@@ -1,7 +1,10 @@
-function addAndPrint(n1, n2, cb) {
-    var result = n1 + n2;
-    cb(result);
+function throwError(message, code) {
+    throw { message: message, errorCode: code };
 }
-addAndPrint(10, 20, function (result) {
-    console.log(result);
-});
+function divideNums(a, b) {
+    var result = a / b;
+    if (Number.isNaN(result))
+        throwError('divide by zero error thrown', 500);
+}
+divideNums(6, 3);
+divideNums(0, 0);
