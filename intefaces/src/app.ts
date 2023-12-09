@@ -1,6 +1,7 @@
 class Department {
     // private name: string;
     // private employees: string[];
+    static company = 'Global Hawks'
 
     constructor(private name: string, protected employees:string[] =[]) {
         // this.name = name
@@ -17,6 +18,10 @@ class Department {
 
     employeesInfo() {
         console.log(`Employees for department ${this.name} are ${this.employees.join(',')}`)
+    }
+
+    static companyName() {
+        return Department.company
     }
 }
 
@@ -50,3 +55,5 @@ it.getAllEmployees()
 console.log('Onboarding devices are: ' + it.getDevices.join(','))
 it.setDevices = ['Bag']
 console.log('Onboarding devices are: ' + it.getDevices.join(','))
+
+console.log(Department.companyName())

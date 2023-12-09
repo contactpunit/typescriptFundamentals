@@ -1,7 +1,5 @@
 "use strict";
 class Department {
-    // private name: string;
-    // private employees: string[];
     constructor(name, employees = []) {
         this.name = name;
         this.employees = employees;
@@ -18,7 +16,13 @@ class Department {
     employeesInfo() {
         console.log(`Employees for department ${this.name} are ${this.employees.join(',')}`);
     }
+    static companyName() {
+        return Department.company;
+    }
 }
+// private name: string;
+// private employees: string[];
+Department.company = 'Global Hawks';
 class ITDepartment extends Department {
     constructor(name, admins) {
         super(name);
@@ -45,3 +49,4 @@ it.getAllEmployees();
 console.log('Onboarding devices are: ' + it.getDevices.join(','));
 it.setDevices = ['Bag'];
 console.log('Onboarding devices are: ' + it.getDevices.join(','));
+console.log(Department.companyName());
