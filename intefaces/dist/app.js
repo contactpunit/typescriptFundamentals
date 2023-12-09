@@ -9,10 +9,6 @@ class Department {
     describe() {
         console.log('Department: ' + this.name);
     }
-    addEmployee(employee) {
-        if (!this.employees.includes(employee))
-            this.employees.push(employee);
-    }
     employeesInfo() {
         console.log(`Employees for department ${this.name} are ${this.employees.join(',')}`);
     }
@@ -38,6 +34,10 @@ class ITDepartment extends Department {
             this.onboardingDevices = [...new Set([...this.onboardingDevices, ...devices])];
         }
     }
+    addEmployee(employee) {
+        if (!this.employees.includes(employee))
+            this.employees.push(employee);
+    }
     getAllEmployees() {
         const allEmployees = [...(new Set([...this.admins, ...this.employees]))];
         console.log(`All employees of IT department are ${allEmployees.join(',')}`);
@@ -50,3 +50,4 @@ console.log('Onboarding devices are: ' + it.getDevices.join(','));
 it.setDevices = ['Bag'];
 console.log('Onboarding devices are: ' + it.getDevices.join(','));
 console.log(Department.companyName());
+// const dept = new Department('test')  // will not worj as it is abstract class

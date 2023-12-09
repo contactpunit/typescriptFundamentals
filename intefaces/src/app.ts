@@ -1,4 +1,4 @@
-class Department {
+abstract class Department {
     // private name: string;
     // private employees: string[];
     static company = 'Global Hawks'
@@ -12,9 +12,7 @@ class Department {
         console.log('Department: ' + this.name)
     }
 
-    addEmployee(employee: string) {
-        if (!this.employees.includes(employee)) this.employees.push(employee)
-    }
+    abstract addEmployee(employee: string): void; // converted to abstract method
 
     employeesInfo() {
         console.log(`Employees for department ${this.name} are ${this.employees.join(',')}`)
@@ -43,6 +41,10 @@ class ITDepartment extends Department {
         }
     }
 
+    addEmployee(employee: string): void {
+        if (!this.employees.includes(employee)) this.employees.push(employee)
+    }
+
     getAllEmployees() {
         const allEmployees = [...(new Set([...this.admins, ...this.employees]))]
         console.log(`All employees of IT department are ${ allEmployees.join(',')}`)
@@ -57,3 +59,4 @@ it.setDevices = ['Bag']
 console.log('Onboarding devices are: ' + it.getDevices.join(','))
 
 console.log(Department.companyName())
+// const dept = new Department('test')  // will not worj as it is abstract class
