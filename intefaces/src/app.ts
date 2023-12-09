@@ -19,16 +19,26 @@ abstract class Department {
     }
 
     static companyName() {
-        return Department.company
+        return this.company
     }
 }
 
 class ITDepartment extends Department {
     private onboardingDevices
-    constructor(name: string, public admins: string[]) {
+    static instance: ITDepartment
+
+    private constructor(name: string, public admins: string[]) {
         super(name)
         this.admins = admins
         this.onboardingDevices = ['Laptop', 'Keyboard', 'Mouse', 'Token']
+    }
+
+    static createInstance(name: string, admins: string[]) {
+        if(this.instance) return this.instance
+        else {
+            this.instance = new ITDepartment(name, admins)
+            return this.instance
+        }
     }
 
     get getDevices() {
@@ -51,7 +61,8 @@ class ITDepartment extends Department {
     }
 }
 
-const it = new ITDepartment('IT', ['Punit', 'Manju'])
+// const it = new ITDepartment('IT', ['Punit', 'Manju'])
+const it = ITDepartment.createInstance('IT', ['Punit', 'Manju'])
 it.addEmployee('Rahul')
 it.getAllEmployees()
 console.log('Onboarding devices are: ' + it.getDevices.join(','))

@@ -13,7 +13,7 @@ class Department {
         console.log(`Employees for department ${this.name} are ${this.employees.join(',')}`);
     }
     static companyName() {
-        return Department.company;
+        return this.company;
     }
 }
 // private name: string;
@@ -25,6 +25,14 @@ class ITDepartment extends Department {
         this.admins = admins;
         this.admins = admins;
         this.onboardingDevices = ['Laptop', 'Keyboard', 'Mouse', 'Token'];
+    }
+    static createInstance(name, admins) {
+        if (this.instance)
+            return this.instance;
+        else {
+            this.instance = new ITDepartment(name, admins);
+            return this.instance;
+        }
     }
     get getDevices() {
         return this.onboardingDevices;
@@ -43,7 +51,8 @@ class ITDepartment extends Department {
         console.log(`All employees of IT department are ${allEmployees.join(',')}`);
     }
 }
-const it = new ITDepartment('IT', ['Punit', 'Manju']);
+// const it = new ITDepartment('IT', ['Punit', 'Manju'])
+const it = ITDepartment.createInstance('IT', ['Punit', 'Manju']);
 it.addEmployee('Rahul');
 it.getAllEmployees();
 console.log('Onboarding devices are: ' + it.getDevices.join(','));
