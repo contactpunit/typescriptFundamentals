@@ -2,7 +2,7 @@ class Department {
     // private name: string;
     // private employees: string[];
 
-    constructor(private name: string, private employees:string[]) {
+    constructor(private name: string, protected employees:string[] =[]) {
         // this.name = name
         // this.employees = []
     }
@@ -16,12 +16,23 @@ class Department {
     }
 
     employeesInfo() {
-        console.log(`Employees afor department ${this.name} are ${this.employees.join(',')}`)
+        console.log(`Employees for department ${this.name} are ${this.employees.join(',')}`)
     }
 }
 
-const it = new Department('IT', [])
-it.describe()
-it.addEmployee('Punit')
-it.addEmployee('Manu')
-it.employeesInfo()
+class ITDepartment extends Department {
+    constructor(name: string, public admins: string[]) {
+        super(name)
+        this.admins = admins
+    }
+
+
+    getAllEmployees() {
+        const allEmployees = [...(new Set([...this.admins, ...this.employees]))]
+        console.log(`All employees of IT department are ${ allEmployees.join(',')}`)
+    }
+}
+
+const it = new ITDepartment('IT', ['Punit', 'Manju'])
+it.addEmployee('Rahul')
+it.getAllEmployees()
