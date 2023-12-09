@@ -21,11 +21,22 @@ class Department {
 }
 
 class ITDepartment extends Department {
+    private onboardingDevices
     constructor(name: string, public admins: string[]) {
         super(name)
         this.admins = admins
+        this.onboardingDevices = ['Laptop', 'Keyboard', 'Mouse', 'Token']
     }
 
+    get getDevices() {
+        return this.onboardingDevices
+    }
+
+    set setDevices(devices: string[]) {
+        if(devices.length && devices.map(d => d.trim()).length) {
+            this.onboardingDevices = [...new Set([...this.onboardingDevices, ...devices])]
+        }
+    }
 
     getAllEmployees() {
         const allEmployees = [...(new Set([...this.admins, ...this.employees]))]
@@ -36,3 +47,6 @@ class ITDepartment extends Department {
 const it = new ITDepartment('IT', ['Punit', 'Manju'])
 it.addEmployee('Rahul')
 it.getAllEmployees()
+console.log('Onboarding devices are: ' + it.getDevices.join(','))
+it.setDevices = ['Bag']
+console.log('Onboarding devices are: ' + it.getDevices.join(','))
