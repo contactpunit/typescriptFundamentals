@@ -40,3 +40,40 @@ function printEmployeeInfo(employee: Employee) {
 }
 
 
+// discriminated union in interfaces
+
+interface Bird {
+    type: 'bird';
+    flyingSpeed: number;
+}
+
+interface Mammal {
+    type: 'mammal';
+    runningSpeed: number
+}
+
+type Animal = Bird | Mammal
+
+class LandAnimals {
+    animal: Animal;
+    speed: number
+
+    constructor(animal: Animal) {
+        this.animal = animal
+        switch(animal.type) {
+            case 'bird':
+                this.speed = animal.flyingSpeed
+                break;
+            case 'mammal':
+                this.speed = animal.runningSpeed
+        }
+    }
+
+    getSpeed() {
+        console.log(`Animal speed is: ${this.speed}`)
+    }
+}
+
+const horse = new LandAnimals({type: 'mammal', runningSpeed: 100})
+horse.getSpeed()
+
