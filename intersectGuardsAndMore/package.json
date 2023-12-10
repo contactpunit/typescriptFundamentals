@@ -1,0 +1,15 @@
+{
+  "name": "intersectguardsandmore",
+  "version": "1.0.0",
+  "description": "intersection guards and many more features",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server"
+  },
+  "author": "Punit Jain",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
