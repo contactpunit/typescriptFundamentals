@@ -33,3 +33,6 @@ const user = {
 };
 const userBuilding = (_b = (_a = user.address) === null || _a === void 0 ? void 0 : _a.location) === null || _b === void 0 ? void 0 : _b.society; // optional chaning of nested parts
 console.log(userBuilding);
+// Null coalesing
+const userData = '';
+const isDataAvailable = userData !== null && userData !== void 0 ? userData : 'empty value'; // null coalesing operator

@@ -49,3 +49,8 @@ const user = {
 
 const userBuilding = user.address?.location?.society // optional chaning of nested parts
 console.log(userBuilding)
+
+// Null coalesing
+
+const userData = ''
+const isDataAvailable = userData ?? 'empty value' // null coalesing operator
