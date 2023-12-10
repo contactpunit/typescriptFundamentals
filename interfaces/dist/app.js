@@ -18,3 +18,11 @@ const user2 = new Employee('Nidhi', 34, 'Finance');
 const user3 = new Employee('Anki', 34, 'Finance');
 user1.greet('Good morning');
 console.log(user3);
+let addNumbers;
+addNumbers = (n1, n2) => {
+    return n1 + n2;
+};
+let addNums;
+addNums = (a, b) => {
+    return a + b;
+};

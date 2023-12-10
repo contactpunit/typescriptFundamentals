@@ -37,3 +37,22 @@ const user2: Person = new Employee('Nidhi', 34, 'Finance')
 const user3: Person = new Employee('Anki', 34, 'Finance')
 user1.greet('Good morning')
 console.log(user3)
+
+// custom function types and function interfaces
+//******************************************** */
+
+type addFn = (a:number, b: number) => number
+
+let addNumbers: addFn
+addNumbers = (n1: number, n2:number) => {
+    return n1 + n2
+}
+
+interface AddFnInterface {
+    (a: number, b: number): number;
+}
+
+let addNums: AddFnInterface
+addNums = (a, b) => {
+    return a + b
+}
