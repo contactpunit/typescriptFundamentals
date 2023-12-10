@@ -31,3 +31,21 @@ function addNumbers(a: Mixed, b: Mixed) {
 console.log(addNumbers(10, 20))
 console.log(addNumbers('Sam', ' Manikshaw'))
 console.log(addNumbers('Sam', 80))
+
+// optional chaining
+
+const user = {
+    name: 'punit',
+    age: 44,
+    address: {
+        area: 'pune',
+        state: 'MH',
+        location: {
+            building: 'K',
+            society: 'test society'
+        }
+    }
+}
+
+const userBuilding = user.address?.location?.society // optional chaning of nested parts
+console.log(userBuilding)
