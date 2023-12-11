@@ -11,6 +11,18 @@ function LogAddedEmployee(logString) {
         console.log(logString);
     };
 }
+function displayEmployees(employeeList, element) {
+    return function (_) {
+        const reqEl = document.getElementById(element);
+        for (const elem of employeeList) {
+            const li = document.createElement('li');
+            li.appendChild(document.createTextNode(elem));
+            reqEl === null || reqEl === void 0 ? void 0 : reqEl.appendChild(li);
+        }
+        console.log(reqEl);
+    };
+}
+// @LogAddedEmployee('Class employee created')
 let Employee = Employee_1 = class Employee {
     constructor(name, age, salary, department) {
         this.name = name;
@@ -25,7 +37,7 @@ let Employee = Employee_1 = class Employee {
 };
 Employee.allEmployees = [];
 Employee = Employee_1 = __decorate([
-    LogAddedEmployee('Class employee created')
+    displayEmployees(['Punit', 'Manu'], 'app')
 ], Employee);
 const emp1 = new Employee('punit', 33, 1234, 'IT');
 const emp2 = new Employee('manu', 36, 1111, 'IT');

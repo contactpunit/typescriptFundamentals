@@ -4,6 +4,18 @@ function LogAddedEmployee(logString: string) {
     }
 }
 
+function displayEmployees(employeeList: string[], element: string) {
+    return function(_: Function) {
+        const reqEl = document.getElementById(element)
+        for(const elem of employeeList) {
+            const li = document.createElement('li')
+            li.appendChild(document.createTextNode(elem))
+            reqEl?.appendChild(li)
+        }
+        console.log(reqEl)
+    }
+}
+
 interface Employee {
     name: string;
     age: number;
@@ -12,7 +24,8 @@ interface Employee {
     listEmployees(): void
 }
 
-@LogAddedEmployee('Class employee created')
+// @LogAddedEmployee('Class employee created')
+@displayEmployees(['Punit', 'Manu'], 'app')
 class Employee implements Employee{
     name: string;
     age: number;
