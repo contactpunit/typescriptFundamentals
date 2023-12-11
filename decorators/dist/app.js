@@ -6,8 +6,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var Employee_1;
-function LogAddedEmployee(target) {
-    console.log('Class employee created');
+function LogAddedEmployee(logString) {
+    return function (target) {
+        console.log(logString);
+    };
 }
 let Employee = Employee_1 = class Employee {
     constructor(name, age, salary, department) {
@@ -23,7 +25,7 @@ let Employee = Employee_1 = class Employee {
 };
 Employee.allEmployees = [];
 Employee = Employee_1 = __decorate([
-    LogAddedEmployee
+    LogAddedEmployee('Class employee created')
 ], Employee);
 const emp1 = new Employee('punit', 33, 1234, 'IT');
 const emp2 = new Employee('manu', 36, 1111, 'IT');

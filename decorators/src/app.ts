@@ -1,5 +1,7 @@
-function LogAddedEmployee(target: Function) {
-    console.log('Class employee created')
+function LogAddedEmployee(logString: string) {
+    return function(target: Function) {
+        console.log(logString)
+    }
 }
 
 interface Employee {
@@ -10,7 +12,7 @@ interface Employee {
     listEmployees(): void
 }
 
-@LogAddedEmployee
+@LogAddedEmployee('Class employee created')
 class Employee implements Employee{
     name: string;
     age: number;
