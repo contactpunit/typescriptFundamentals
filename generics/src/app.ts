@@ -62,3 +62,29 @@ sweet1.addSweet('rasgulla')
 sweet1.addSweet('rasmalai')
 sweet1.addSweet('gulab jamun')
 console.log(sweet1.getSweets())
+
+// partial generic type
+
+interface Student {
+    id: string;
+    name: string;
+    collegeName: string;
+    section: string;
+    joiningDate: Date
+}
+
+function addStudent(name: string, collegeName: string, section: string) : Student {
+    let studentDetail: Partial<Student> = {}
+    studentDetail.name = name
+    studentDetail.collegeName = collegeName
+    studentDetail.section = section
+    studentDetail.id = new Date().toString()
+    studentDetail.joiningDate = new Date()
+
+    return studentDetail as Student
+}
+
+console.log(addStudent('Punit','Test', 'Engineering'))
+
+const names: Readonly<string[]> = ['Punit', 'Manu']
+// names.push('Anki')

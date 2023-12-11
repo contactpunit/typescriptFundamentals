@@ -45,3 +45,15 @@ sweet1.addSweet('rasgulla');
 sweet1.addSweet('rasmalai');
 sweet1.addSweet('gulab jamun');
 console.log(sweet1.getSweets());
+function addStudent(name, collegeName, section) {
+    let studentDetail = {};
+    studentDetail.name = name;
+    studentDetail.collegeName = collegeName;
+    studentDetail.section = section;
+    studentDetail.id = new Date().toString();
+    studentDetail.joiningDate = new Date();
+    return studentDetail;
+}
+console.log(addStudent('Punit', 'Test', 'Engineering'));
+const names = ['Punit', 'Manu'];
+// names.push('Anki')
