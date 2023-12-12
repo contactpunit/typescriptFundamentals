@@ -39,7 +39,23 @@ class Project {
     @bindElements
     submitHandler(e: Event) {
         e.preventDefault()
-        console.log(this.titleEl.value)
+        const userInputs = this.getFormInputs()
+        if(Array.isArray(userInputs)) {
+            console.log(userInputs)
+        }
+    }
+
+    getFormInputs(): [string, string, number] | void {
+        const title = this.titleEl.value
+        const description = this.descriptionEl.value
+        const people = this.peopleEl.value
+
+        if(title.trim() && description.trim() && people.trim()) {
+            return [title, description, +people]
+        } else {
+            alert('Invalid Input')
+            return
+        }
     }
 
     render() {
