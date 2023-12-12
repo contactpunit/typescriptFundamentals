@@ -8,73 +8,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-function LogValidation(target, propertyName) {
-    console.log('class attribute descriptor');
-    console.log(target, ' ' + propertyName);
+var Employe_1;
+function displayEmployee(employeeList, element) {
+    return function (employeClass) {
+        return class extends employeClass {
+            constructor(...args) {
+                super();
+                const reqEl = document.getElementById(element);
+                for (const elem of employeeList) {
+                    const li = document.createElement('li');
+                    li.appendChild(document.createTextNode(elem));
+                    reqEl.appendChild(li);
+                }
+            }
+        };
+    };
 }
-function isAuthenticatedCheck(target, name, descriptor) {
-    console.log('apply decorator to isAuthenticated descriptor');
-    console.log('target: ' + JSON.stringify(target));
-    console.log('name: ' + name);
-    console.log('descriptor: ' + JSON.stringify(descriptor));
-}
-function displayUser(target, name, descriptor) {
-    console.log('apply instance decorator');
-    console.log('target: ' + JSON.stringify(target));
-    console.log('name: ' + name);
-    console.log('descriptor: ' + JSON.stringify(descriptor));
-}
-function paramsDecorator(target, name, position) {
-    console.log('apply param decorator');
-    console.log('target: ' + JSON.stringify(target));
-    console.log('name: ' + name);
-    console.log('position: ' + position);
-}
-class User {
-    constructor(name, username) {
-        this.userAuthenticated = false;
+let Employe = Employe_1 = class Employe {
+    constructor(name, age, salary, department) {
         this.name = name;
-        this.username = username;
-        this.password = (Math.random() + 1).toString(36).substring(7);
+        this.age = age;
+        this.salary = salary;
+        this.department = department;
+        Employe_1.allEmployees.push(this);
     }
-    get isAthenticated() {
-        return this.userAuthenticated;
+    listEmployees() {
+        console.log(`All employees of company are ${(Employe_1.allEmployees.map(e => e.name)).join(',')}`);
     }
-    set isAuthenticated(pass) {
-        if (this.password === pass)
-            this.userAuthenticated = true;
-        else
-            this.userAuthenticated = false;
-    }
-    showUserInfo() {
-        return this.name;
-    }
-    updateUsername(value) {
-        if (this.username !== value)
-            this.username = value;
-    }
-}
-__decorate([
-    LogValidation,
-    __metadata("design:type", String)
-], User.prototype, "username", void 0);
-__decorate([
-    isAuthenticatedCheck,
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], User.prototype, "isAuthenticated", null);
-__decorate([
-    displayUser,
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], User.prototype, "showUserInfo", null);
-__decorate([
-    __param(0, paramsDecorator),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], User.prototype, "updateUsername", null);
+};
+Employe.allEmployees = [];
+Employe = Employe_1 = __decorate([
+    displayEmployee(['Punit', 'Manu', 'Raj'], 'app'),
+    __metadata("design:paramtypes", [String, Number, Number, String])
+], Employe);
+const empl = new Employe('punit', 33, 1234, 'IT');
+empl.listEmployees();
+// const emp2 = new Employee('manu', 36, 1111, 'IT')
+// emp1.listEmployees()

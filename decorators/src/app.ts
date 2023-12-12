@@ -1,58 +1,49 @@
-function LogValidation(target:any, propertyName: string | Symbol) {
-    console.log('class attribute descriptor')
-    console.log(target, ' ' + propertyName)
+function displayEmployee(employeeList: string[], element: string) {
+    return function<T extends {new(...args:any[]): {}}>(employeClass: T) {
+        return class extends employeClass {
+            constructor(...args:any[]) {
+                super();
+                const reqEl = document.getElementById(element) as HTMLOutputElement
+                for(const elem of employeeList) {
+                    const li = document.createElement('li')
+                    li.appendChild(document.createTextNode(elem))
+                    reqEl.appendChild(li)
+                }
+            }
+        }
+    }
 }
 
-function isAuthenticatedCheck(target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
-    console.log('apply decorator to isAuthenticated descriptor')
-    console.log('target: ' + JSON.stringify(target))
-    console.log('name: ' + name)
-    console.log('descriptor: ' + JSON.stringify(descriptor))
-}
-
-function displayUser(target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
-    console.log('apply instance decorator')
-    console.log('target: ' + JSON.stringify(target))
-    console.log('name: ' + name)
-    console.log('descriptor: ' + JSON.stringify(descriptor))
-}
-
-function paramsDecorator(target: any, name: string, position: number) {
-    console.log('apply param decorator')
-    console.log('target: ' + JSON.stringify(target))
-    console.log('name: ' + name)
-    console.log('position: ' + position)
-}
-
-class User {
+interface Emp {
     name: string;
-    @LogValidation
-    username: string;
-    password: string;
-    userAuthenticated: boolean = false;
+    age: number;
+    salary: number;
+    department: string;
+    listEmployees(): void
+}
 
-    constructor(name:string, username: string) {
+@displayEmployee(['Punit', 'Manu', 'Raj'], 'app')
+class Employe implements Emp{
+    name: string;
+    age: number;
+    salary: number;
+    department: string;
+    static allEmployees: Emp[] = []
+
+    constructor(name: string, age: number, salary: number, department:string) {
         this.name = name
-        this.username = username
-        this.password = (Math.random() + 1).toString(36).substring(7)
+        this.age = age
+        this.salary = salary
+        this.department = department
+        Employe.allEmployees.push(this)
     }
 
-    get isAthenticated() {
-        return this.userAuthenticated
-    }
-
-    @isAuthenticatedCheck
-    set isAuthenticated(pass: string) {
-        if(this.password === pass) this.userAuthenticated = true
-        else this.userAuthenticated = false
-    }
-
-    @displayUser
-    showUserInfo() {
-        return this.name
-    }
-
-    updateUsername(@paramsDecorator value: string) {
-        if(this.username !== value) this.username = value
+    listEmployees() {
+        console.log(`All employees of company are ${(Employe.allEmployees.map(e => e.name)).join(',')}`)
     }
 }
+
+const empl = new Employe('punit', 33, 1234, 'IT')
+empl.listEmployees()
+// const emp2 = new Employee('manu', 36, 1111, 'IT')
+// emp1.listEmployees()
