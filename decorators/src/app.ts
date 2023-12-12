@@ -1,30 +1,22 @@
-function BindThis(target: any, methodName: string, descriptor: TypedPropertyDescriptor<any> ) {
-    const originalMethod = descriptor.value
-    const newDescriptor = {
-        configurable: true,
-        enumerable: false,
-        get() {
-            const boundFn = originalMethod.bind(this)
-            return boundFn
-        }
-    }
-    return newDescriptor
-}
+class Course {
+    title: string
+    price: number
 
-class ShowMessage {
-    message: string= ''
-
-    constructor() {
-        this.message = 'I am clicked!!!'
-    }
-
-    @BindThis
-    clickMsg() {
-        console.log(this.message)
+    constructor(title: string, price: number) {
+        this.title = title
+        this.price = price
     }
 }
 
-const msg = new ShowMessage()
+const form = document.querySelector('form')!
+form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const titleEl = document.getElementById('title') as HTMLInputElement
+    const priceEl = document.getElementById('price') as HTMLInputElement
+    const title = titleEl.value
+    const price = +priceEl.value
 
-const button = document.querySelector('button')!
-button.addEventListener('click', msg.clickMsg)
+    const c = new Course(title, price)
+    console.log(c)
+
+})
