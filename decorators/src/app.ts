@@ -1,51 +1,35 @@
-function LogAddedEmployee(logString: string) {
-    return function(target: Function) {
-        console.log(logString)
-    }
+function LogValidation(target:any, propertyName: string | Symbol) {
+    console.log('class attribute descriptor')
+    console.log(target, ' ' + propertyName)
 }
 
-function displayEmployees(employeeList: string[], element: string) {
-    return function(_: Function) {
-        const reqEl = document.getElementById(element)
-        for(const elem of employeeList) {
-            const li = document.createElement('li')
-            li.appendChild(document.createTextNode(elem))
-            reqEl?.appendChild(li)
-        }
-        console.log(reqEl)
-    }
+function isAuthenticatedCheck(target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
+    console.log('apply decorator to isAuthenticated descriptor')
+    console.log('target: ' + JSON.stringify(target))
+    console.log('name: ' + name)
+    console.log('descriptor: ' + JSON.stringify(descriptor))
 }
 
-interface Employee {
+class User {
     name: string;
-    age: number;
-    salary: number;
-    department: string;
-    listEmployees(): void
-}
+    @LogValidation
+    username: string;
+    password: string;
+    userAuthenticated: boolean = false;
 
-// @LogAddedEmployee('Class employee created')
-@displayEmployees(['Punit', 'Manu'], 'app')
-class Employee implements Employee{
-    name: string;
-    age: number;
-    salary: number;
-    department: string;
-    static allEmployees: Employee[] = []
-
-    constructor(name: string, age: number, salary: number, department:string) {
+    constructor(name:string, username: string) {
         this.name = name
-        this.age = age
-        this.salary = salary
-        this.department = department
-        Employee.allEmployees.push(this)
+        this.username = username
+        this.password = (Math.random() + 1).toString(36).substring(7)
     }
 
-    listEmployees() {
-        console.log(`All employees of company are ${(Employee.allEmployees.map(e => e.name)).join(',')}`)
+    get isAthenticated() {
+        return this.userAuthenticated
+    }
+
+    @isAuthenticatedCheck
+    set isAuthenticated(pass: string) {
+        if(this.password === pass) this.userAuthenticated = true
+        else this.userAuthenticated = false
     }
 }
-
-const emp1 = new Employee('punit', 33, 1234, 'IT')
-const emp2 = new Employee('manu', 36, 1111, 'IT')
-emp1.listEmployees()

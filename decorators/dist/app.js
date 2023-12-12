@@ -5,40 +5,42 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var Employee_1;
-function LogAddedEmployee(logString) {
-    return function (target) {
-        console.log(logString);
-    };
-}
-function displayEmployees(employeeList, element) {
-    return function (_) {
-        const reqEl = document.getElementById(element);
-        for (const elem of employeeList) {
-            const li = document.createElement('li');
-            li.appendChild(document.createTextNode(elem));
-            reqEl === null || reqEl === void 0 ? void 0 : reqEl.appendChild(li);
-        }
-        console.log(reqEl);
-    };
-}
-// @LogAddedEmployee('Class employee created')
-let Employee = Employee_1 = class Employee {
-    constructor(name, age, salary, department) {
-        this.name = name;
-        this.age = age;
-        this.salary = salary;
-        this.department = department;
-        Employee_1.allEmployees.push(this);
-    }
-    listEmployees() {
-        console.log(`All employees of company are ${(Employee_1.allEmployees.map(e => e.name)).join(',')}`);
-    }
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Employee.allEmployees = [];
-Employee = Employee_1 = __decorate([
-    displayEmployees(['Punit', 'Manu'], 'app')
-], Employee);
-const emp1 = new Employee('punit', 33, 1234, 'IT');
-const emp2 = new Employee('manu', 36, 1111, 'IT');
-emp1.listEmployees();
+function LogValidation(target, propertyName) {
+    console.log('class attribute descriptor');
+    console.log(target, ' ' + propertyName);
+}
+function isAuthenticatedCheck(target, name, descriptor) {
+    console.log('apply decorator to isAuthenticated descriptor');
+    console.log('target: ' + JSON.stringify(target));
+    console.log('name: ' + name);
+    console.log('descriptor: ' + JSON.stringify(descriptor));
+}
+class User {
+    constructor(name, username) {
+        this.userAuthenticated = false;
+        this.name = name;
+        this.username = username;
+        this.password = (Math.random() + 1).toString(36).substring(7);
+    }
+    get isAthenticated() {
+        return this.userAuthenticated;
+    }
+    set isAuthenticated(pass) {
+        if (this.password === pass)
+            this.userAuthenticated = true;
+        else
+            this.userAuthenticated = false;
+    }
+}
+__decorate([
+    LogValidation,
+    __metadata("design:type", String)
+], User.prototype, "username", void 0);
+__decorate([
+    isAuthenticatedCheck,
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
+], User.prototype, "isAuthenticated", null);
