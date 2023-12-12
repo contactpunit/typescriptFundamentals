@@ -1,4 +1,17 @@
-// Code goes here!
+// decorators
+function bindElements(_: any, _2: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value
+    const newdescriptor: PropertyDescriptor = {
+        configurable: true,
+        get() {
+            const boundFn = originalMethod.bind(this)
+            return boundFn
+        }
+    }
+    return newdescriptor
+}
+
+// classes
 class Project {
     templateFormEl: HTMLTemplateElement;
     templateDestinationEl: HTMLDivElement;
@@ -19,12 +32,14 @@ class Project {
         this.descriptionEl = this.formElement.querySelector('#description')! as HTMLInputElement
         this.peopleEl = this.formElement.querySelector('#people')! as HTMLInputElement
 
-        this.formElement.addEventListener('submit', this.submitHandler.bind(this))
+        this.formElement.addEventListener('submit', this.submitHandler)
         this.render()
     }
 
+    @bindElements
     submitHandler(e: Event) {
         e.preventDefault()
+        console.log(this.titleEl.value)
     }
 
     render() {
