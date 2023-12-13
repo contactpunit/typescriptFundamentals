@@ -55,11 +55,19 @@ class Project {
     ) {}
 }
 
-type Listener = (items: Project[]) => void
+type Listener<T> = (items: T[]) => void
 
-class ProjectState {
+class State<U> {
+    protected allListeners: Listener<U>[] = []
+    
+    addListener(listenerFn: Listener<U>) {
+        this.allListeners.push(listenerFn)
+    }
+}
+
+class ProjectState extends State<Project> {
     private allProjects: Project[] = [] 
-    private allListeners: Listener[] = []
+    
     static instance: ProjectState
 
     addProject(title: string, description: string, people: number) {
@@ -75,10 +83,6 @@ class ProjectState {
         for(const listenerFn of this.allListeners) {
             listenerFn(this.allProjects.slice())
         }
-    }
-    
-    addListener(listenerFn: Listener) {
-        this.allListeners.push(listenerFn)
     }
 
     static getInstance() {
