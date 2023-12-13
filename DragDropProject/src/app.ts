@@ -42,7 +42,34 @@ function bindElements(_: any, _2: string, descriptor: PropertyDescriptor) {
 }
 
 // classes
-class Project {
+
+class ProjectList {
+    templateProjectListEl: HTMLTemplateElement;
+    templateDestinationEl: HTMLDivElement;
+    projectElement: HTMLElement;
+
+    constructor(private type: 'active' |'finished') {
+        this.templateDestinationEl =document.getElementById('app')! as HTMLDivElement
+        this.templateProjectListEl = document.getElementById('project-list')! as HTMLTemplateElement
+        const importedNode = document.importNode(this.templateProjectListEl.content, true)
+        this.projectElement = importedNode.firstElementChild as HTMLFormElement
+        this.projectElement.id = `${this.type}-projects`
+
+        this.render()
+    }
+
+    render() {
+        this.templateDestinationEl.insertAdjacentElement('beforeend', this.projectElement)
+        const ulId = `${this.type}-projects-list`
+        this.projectElement.querySelector('ul')!.id = ulId
+        this.projectElement.querySelector('h2')!.textContent = `${this.type.toUpperCase()} PROJECTS`
+    }
+}
+
+// const pl1 = new ProjectList('active')
+// const pl2 = new ProjectList('finished')
+
+class Form {
     templateFormEl: HTMLTemplateElement;
     templateDestinationEl: HTMLDivElement;
     formElement: HTMLFormElement;
@@ -96,4 +123,4 @@ class Project {
     }
 }
 
-const p = new Project()
+const p = new Form()
