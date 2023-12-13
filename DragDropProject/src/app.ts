@@ -1,4 +1,34 @@
-// decorators
+// validation decorator
+interface Validation {
+    value: string | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
+
+function validate(userInput: Validation) {
+    let isValid = true
+    if(userInput.required) {
+        isValid = isValid && userInput.value.toString().length > 0
+    }
+    if(userInput.minLength != null && typeof userInput.value === 'string') {
+        isValid = isValid && userInput.value.length > userInput.minLength
+    }
+    if(userInput.maxLength != null && typeof userInput.value === 'string') {
+        isValid = isValid && userInput.value.length < userInput.maxLength
+    }
+    if(userInput.min != null && typeof userInput.value === 'number') {
+        isValid = isValid && userInput.value > userInput.min
+    }
+    if(userInput.max != null && typeof userInput.value === 'number') {
+        isValid = isValid && userInput.value < userInput.max
+    }
+    return isValid
+}
+
+// bind decorator
 function bindElements(_: any, _2: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value
     const newdescriptor: PropertyDescriptor = {
@@ -50,7 +80,10 @@ class Project {
         const description = this.descriptionEl.value
         const people = this.peopleEl.value
 
-        if(title.trim() && description.trim() && people.trim()) {
+        if (validate({value: title, required: true, minLength: 3, maxLength: 10}) &&
+            validate({value: description, required: true, minLength: 3, maxLength: 30}) &&
+            validate({value: +people, required: true, min: 1, max: 5})
+        ) {
             return [title, description, +people]
         } else {
             alert('Invalid Input')
