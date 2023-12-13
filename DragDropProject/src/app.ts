@@ -43,10 +43,59 @@ function bindElements(_: any, _2: string, descriptor: PropertyDescriptor) {
 
 // classes
 
-class ProjectList {
+enum ProjectStatus { Active, Finished }
+
+class Project {
+    constructor(
+        public id: string,
+        public title: string,
+        public description: string,
+        public people: number,
+        public status: ProjectStatus
+    ) {}
+}
+
+type Listener = (items: Project[]) => void
+
+class ProjectState {
+    private allProjects: Project[] = []
+    private allListeners: Listener[] = []
+    static instance: ProjectState
+
+    addProject(title: string, description: string, people: number) {
+        const p: Project = new Project(
+            new Date().toString(),
+            title,
+            description,
+            people,
+            ProjectStatus.Active
+        )
+        this.allProjects.push(p)
+        for(const listenerFn of this.allListeners) {
+            listenerFn(this.allProjects.slice())
+        }
+    }
+    
+    addListener(listenerFn: Listener) {
+        this.allListeners.push(listenerFn)
+    }
+
+    static getInstance() {
+        if(this.instance) return this.instance
+        else {
+            this.instance = new ProjectState()
+            return this.instance
+        }
+    }
+}
+
+const pState = ProjectState.getInstance()
+
+class ProjectView {
     templateProjectListEl: HTMLTemplateElement;
     templateDestinationEl: HTMLDivElement;
     projectElement: HTMLElement;
+    assignedProjects: Project[] = [];
 
     constructor(private type: 'active' |'finished') {
         this.templateDestinationEl =document.getElementById('app')! as HTMLDivElement
@@ -55,7 +104,21 @@ class ProjectList {
         this.projectElement = importedNode.firstElementChild as HTMLFormElement
         this.projectElement.id = `${this.type}-projects`
 
+        pState.addListener((projects: Project[]) => {
+            this.assignedProjects = projects
+            this.renderProjects()
+        })
+
         this.render()
+    }
+
+    private renderProjects() {
+        const ulEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
+        for(const project of this.assignedProjects) {
+            const listItem = document.createElement('li')
+            listItem.textContent = project.title
+            ulEl.appendChild(listItem)
+        }
     }
 
     render() {
@@ -66,8 +129,8 @@ class ProjectList {
     }
 }
 
-// const pl1 = new ProjectList('active')
-// const pl2 = new ProjectList('finished')
+const pl1 = new ProjectView('active')
+const pl2 = new ProjectView('finished')
 
 class Form {
     templateFormEl: HTMLTemplateElement;
@@ -96,9 +159,10 @@ class Form {
     @bindElements
     submitHandler(e: Event) {
         e.preventDefault()
-        const userInputs = this.getFormInputs()
-        if(Array.isArray(userInputs)) {
-            console.log(userInputs)
+        const userInputs: [string, string, number]| void = this.getFormInputs()
+        if (Array.isArray(userInputs)) {
+            const [title, description, people] = userInputs
+            pState.addProject(title, description, people)
         }
     }
 
@@ -122,5 +186,8 @@ class Form {
         this.templateDestinationEl.insertAdjacentElement('afterbegin', this.formElement)
     }
 }
+
+
+// Instances
 
 const p = new Form()
