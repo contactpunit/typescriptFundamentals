@@ -105,7 +105,11 @@ class ProjectView {
         this.projectElement.id = `${this.type}-projects`
 
         pState.addListener((projects: Project[]) => {
-            this.assignedProjects = projects
+            const filteredProjects = projects.filter((prj) => {
+                if(type === 'active') return prj.status === ProjectStatus.Active
+                else return prj.status === ProjectStatus.Finished
+            })
+            this.assignedProjects = filteredProjects
             this.renderProjects()
         })
 
@@ -114,6 +118,7 @@ class ProjectView {
 
     private renderProjects() {
         const ulEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
+        ulEl.innerHTML = ''
         for(const project of this.assignedProjects) {
             const listItem = document.createElement('li')
             listItem.textContent = project.title
