@@ -57,10 +57,10 @@ class Project {
 
 type Listener<T> = (items: T[]) => void
 
-class State<U> {
-    protected allListeners: Listener<U>[] = []
+class State<T> {
+    protected allListeners: Listener<T>[] = []
     
-    addListener(listenerFn: Listener<U>) {
+    addListener(listenerFn: Listener<T>) {
         this.allListeners.push(listenerFn)
     }
 }
@@ -69,6 +69,10 @@ class ProjectState extends State<Project> {
     private allProjects: Project[] = [] 
     
     static instance: ProjectState
+
+    constructor() {
+        super()
+    }
 
     addProject(title: string, description: string, people: number) {
         const p: Project = new Project(
@@ -79,7 +83,6 @@ class ProjectState extends State<Project> {
             ProjectStatus.Active
         )
         this.allProjects.push(p)
-        console.log(this.allProjects)
         for(const listenerFn of this.allListeners) {
             listenerFn(this.allProjects.slice())
         }
@@ -120,6 +123,25 @@ abstract class Component <T extends HTMLElement, U extends HTMLElement> {
     abstract renderContent(): void;
 }
 
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+    private project: Project
+
+    constructor(hostId: string, project: Project) {
+        super('single-project', hostId, 'beforeend', project.id)
+        this.project = project
+
+        this.renderContent()
+    }
+
+    configure() {}
+
+    renderContent(): void {
+        this.element.querySelector('h2')!.textContent = this.project.title
+        this.element.querySelector('h3')!.textContent = this.project.people.toString()
+        this.element.querySelector('p')!.textContent = this.project.description
+    }
+}
+
 class ProjectView extends Component<HTMLDivElement, HTMLElement> {
     assignedProjects: Project[] = [];
 
@@ -135,9 +157,10 @@ class ProjectView extends Component<HTMLDivElement, HTMLElement> {
         const ulEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
         ulEl.innerHTML = ''
         for(const project of this.assignedProjects) {
-            const listItem = document.createElement('li')
-            listItem.textContent = project.title
-            ulEl.appendChild(listItem)
+            new ProjectItem(this.element.id, project)
+            // const listItem = document.createElement('li')
+            // listItem.textContent = project.title
+            // ulEl.appendChild(listItem)
         }
         
     }
