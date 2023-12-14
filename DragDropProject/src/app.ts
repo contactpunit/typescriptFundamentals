@@ -124,7 +124,19 @@ abstract class Component <T extends HTMLElement, U extends HTMLElement> {
 }
 
 class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
-    private project: Project
+    private project: Project;
+
+    get people() {
+        return `Number of People: ${this.project.people}`
+    }
+
+    get projectName() {
+        return `Project Title: ${this.project.title}`
+    }
+
+    get projectDesc() {
+        return `Purpose: ${this.project.description}`
+    }
 
     constructor(hostId: string, project: Project) {
         super('single-project', hostId, 'beforeend', project.id)
@@ -136,9 +148,9 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     configure() {}
 
     renderContent(): void {
-        this.element.querySelector('h2')!.textContent = this.project.title
-        this.element.querySelector('h3')!.textContent = this.project.people.toString()
-        this.element.querySelector('p')!.textContent = this.project.description
+        this.element.querySelector('h2')!.textContent = this.projectName
+        this.element.querySelector('h3')!.textContent = this.people
+        this.element.querySelector('p')!.textContent = this.projectDesc
     }
 }
 
@@ -157,10 +169,7 @@ class ProjectView extends Component<HTMLDivElement, HTMLElement> {
         const ulEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
         ulEl.innerHTML = ''
         for(const project of this.assignedProjects) {
-            new ProjectItem(this.element.id, project)
-            // const listItem = document.createElement('li')
-            // listItem.textContent = project.title
-            // ulEl.appendChild(listItem)
+            new ProjectItem(this.element.querySelector('ul')!.id, project)
         }
         
     }
