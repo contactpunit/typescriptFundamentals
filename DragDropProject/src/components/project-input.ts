@@ -1,7 +1,7 @@
-import { Component } from './base-component.js'
-import { validate} from '../util/validation.js'
-import { bindElements } from '../decorators/bindElements.js'
-import { pState } from '../state/project-state.js';
+import { Component } from './base-component'
+import { validate} from '../util/validation'
+import { bindElements } from '../decorators/bindElements'
+import { pState } from '../state/project-state';
 
 export class Form extends Component<HTMLDListElement, HTMLFormElement> {
     titleEl: HTMLInputElement;
