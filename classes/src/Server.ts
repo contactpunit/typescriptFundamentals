@@ -1,5 +1,11 @@
 
-abstract class Server {
+interface IServer {
+    port: number
+    address: string
+    createFqdn(): string
+}
+
+class Server implements IServer {
     port: number
     address: string
 
@@ -8,25 +14,22 @@ abstract class Server {
         this.address = address
     }
 
-    createFqdn() {
+    createFqdn(): string {
         return `${this.address}:${this.port}`
     }
-
-    abstract initializeRegion(region: string): void
 }
 
-class DbServer extends Server {
-    region: string = ''
+// class DbServer extends Server {
+//     region: string = ''
 
-    constructor(port: number, address: string) {
-        super(port, address)
-    }
+//     constructor(port: number, address: string) {
+//         super(port, address)
+//     }
 
-    initializeRegion(region: string): void {
-        this.region = region
-    }
-}
+//     initializeRegion(region: string): void {
+//         this.region = region
+//     }
+// }
 
-const serverObj = new DbServer(8080, 'localhost')
-const fqdn = serverObj.createFqdn()
-console.log(fqdn)
+const server = new Server(8080, 'localhost')
+console.log(server.createFqdn())
